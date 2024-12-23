@@ -1,39 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <!-- Lock viewport: no pinch-zoom, no double-tap zoom -->
+  <meta charset="UTF-8"/>
   <meta name="viewport"
-    content="width=device-width, initial-scale=1.0,
-             user-scalable=no,
-             maximum-scale=1,
-             minimum-scale=1" />
-  <title>Refined 1-Billion-Design Planner (Square Outline + Pinned Drag)</title>
+        content="width=device-width, initial-scale=1.0, user-scalable=no,
+                 maximum-scale=1, minimum-scale=1"/>
+  <title>Emoji Planner – Direct Revision (Pin Under Finger)</title>
 
   <style>
     /* ==========================================================================
-       1) GLOBAL & VIEWPORT LOCK
+       1) GLOBAL & VIEWPORT
     ========================================================================== */
     html, body {
-      margin: 0; 
-      padding: 0;
-      width: 100%; 
-      height: 100%;
-      overflow: hidden; /* We'll use .main-content for vertical scrolling */
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      overflow: hidden; 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      /* Avoid double-tap zoom on iOS Safari */
       touch-action: manipulation; 
-      background-color: #9ce0e9; /* fallback color */
+      background-color: #9ce0e9;
     }
 
-    /* ==========================================================================
-       2) PIXEL-ART “HABBO HOTEL” BACKGROUND
-    ========================================================================== */
+    /* Pixel-art background */
     .pixel-art-background {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      z-index: -1; 
+      z-index: -1;
       pointer-events: none;
       background-color: #9ce0e9;
       background-image:
@@ -49,27 +41,27 @@
     }
 
     /* ==========================================================================
-       3) HEADER (RESET / HOMEWORK / SAVE)
+       2) HEADER (RESET / HOMEWORK / SAVE)
     ========================================================================== */
     .app-header {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      padding: 0.5rem 0.4rem;
+      padding: 0.6rem 0.4rem;
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(4px);
     }
     .header-btn {
-      background: linear-gradient(135deg, #ffffff, #eeeeee);
-      border: 1px solid rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, #fff, #eee);
+      border: 1px solid rgba(0,0,0,0.2);
       border-radius: 12px;
-      padding: 0.4rem 0.8rem;
+      padding: 0.5rem 1rem;
       font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.25s ease;
     }
     .header-btn:hover {
-      background: linear-gradient(135deg, #ffffff, #ffffff);
+      background: linear-gradient(135deg, #fff, #fff);
       box-shadow: 0 3px 12px rgba(0,0,0,0.15);
     }
     .homework-btn {
@@ -79,7 +71,7 @@
     }
 
     /* ==========================================================================
-       4) 3D CAROUSEL
+       3) 3D CAROUSEL (Morning/Midday/Evening)
     ========================================================================== */
     .carousel-viewport {
       display: flex;
@@ -88,19 +80,15 @@
       margin-bottom: 10px;
     }
     .carousel-stage {
-      width: 100%;
-      max-width: 900px;
+      width: 100%; max-width: 900px; 
       height: 300px;
       transform-style: preserve-3d;
       position: relative;
     }
-
     .sector {
       position: absolute;
-      top: 50%; 
-      left: 50%;
-      width: 280px; 
-      height: 220px;
+      top: 50%; left: 50%;
+      width: 280px; height: 220px;
       border-radius: 12px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.25);
       backdrop-filter: blur(8px);
@@ -108,42 +96,42 @@
       transform: translate(-50%, -50%) rotateY(0) scale(1);
       transition: transform 0.7s cubic-bezier(0.25,0.8,0.25,1),
                   opacity 0.7s;
-      opacity: 0;  
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center;
-      z-index: 5; 
+      opacity: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 5;
     }
     .sector-title {
       margin: 0.4rem 0 0.6rem;
-      color: #ffffff;
+      color: #fff;
       font-size: 1.0rem;
       font-weight: bold;
       text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
-
     .sector.active.center {
       background: linear-gradient(135deg,
-                rgba(173,216,230, 0.5) 50%,
-                rgba(255,255,255,0) 50%);
-      opacity: 1;
+                rgba(173,216,230,0.5) 50%,
+                rgba(255,255,255,0)   50%);
+      opacity: 1; 
       z-index: 99;
       transform: translate(-50%, -50%) rotateY(0) scale(1);
     }
-    .sector.left,
-    .sector.right {
+    .sector.left, .sector.right {
       width: 180px; 
     }
     .sector.left {
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+      background: linear-gradient(135deg, 
+                rgba(255,255,255,0.2), 
+                rgba(255,255,255,0.1));
       opacity: 0.85;
       z-index: 10;
       transform: translate(-50%, -50%) rotateY(30deg)
                  translateX(-180px) translateY(10px) scale(0.9);
     }
     .sector.right {
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+      background: linear-gradient(135deg, 
+                rgba(255,255,255,0.2), 
+                rgba(255,255,255,0.1));
       opacity: 0.85;
       z-index: 10;
       transform: translate(-50%, -50%) rotateY(-30deg)
@@ -151,24 +139,22 @@
     }
     .placeholder-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: repeat(2,1fr);
       gap: 0.6rem;
     }
     .placeholder {
-      width: 60px; 
-      height: 60px;
+      width: 60px; height: 60px;
       border-radius: 12px;
       background: radial-gradient(circle, rgba(255,255,255,0.7), rgba(255,255,255,0.2));
       border: 2px solid rgba(255,255,255,0.3);
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: inset 0 0 8px rgba(255,255,255,0.3), 0 2px 5px rgba(0,0,0,0.1);
+      position: relative;
     }
 
     /* ==========================================================================
-       5) MAIN CONTENT (vertical scroll)
+       4) MAIN CONTENT
     ========================================================================== */
     .main-content {
       flex: 1;
@@ -184,7 +170,7 @@
     }
 
     /* ==========================================================================
-       6) EMOJI DECK: Square White Outline + Pinned-Under-Finger Drag
+       5) EMOJI DECK – Offset-based pinned drag
     ========================================================================== */
     .emoji-grid {
       display: grid;
@@ -197,35 +183,22 @@
       text-align: center;
       cursor: pointer;
       user-select: none;
-      position: relative;  /* so we can position a pseudo-element behind it */
+      position: relative;
       transition: transform 0.2s;
     }
-    /* 2px white outline behind each emoji, fully squared corners (no radius) */
-    .emoji-item::before {
-      content: "";
-      position: absolute;
-      top: -2px; left: -2px; 
-      right: -2px; bottom: -2px;
-      border: 2px solid #fff;
-      border-radius: 0;  /* no rounding => fully squared */
-      pointer-events: none;
-      z-index: -1; /* behind the emoji glyph */
-    }
-
-    /* Pinned-under-finger drag, no offset => top-left corner is exactly under finger */
     .emoji-item.dragging {
-      position: fixed;
-      z-index: 9999;
+      position: fixed; 
       pointer-events: none;
       opacity: 0.9;
       transform: scale(1.0);
+      z-index: 9999; 
     }
     .emoji-item:active {
       transform: scale(1.2);
     }
 
     /* ==========================================================================
-       7) RESET OVERLAY
+       6) RESET OVERLAY
     ========================================================================== */
     .reset-overlay {
       position: fixed;
@@ -246,24 +219,21 @@
     }
 
     /* ==========================================================================
-       8) CONFETTI for Homework toggle
+       7) CONFETTI
     ========================================================================== */
     .confetti-container {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
       pointer-events: none;
       overflow: hidden;
-      z-index: 200; 
+      z-index: 200;
     }
     .confetti-container.hidden {
       display: none;
     }
     .confetti-piece {
-      position: absolute;
-      top: 0; 
-      width: 8px; 
-      height: 8px;
+      position: absolute; top:0;
+      width: 8px; height: 8px;
       opacity: 0.9;
       animation: confettiFall 3s linear forwards;
     }
@@ -273,7 +243,7 @@
     }
 
     /* ==========================================================================
-       9) DROP-ZOOM ANIMATION
+       8) DROP-ZOOM
     ========================================================================== */
     @keyframes dropZoom {
       0%   { transform: scale(1.0); }
@@ -286,7 +256,6 @@
 
   </style>
 </head>
-
 <body>
   <!-- Pixel-art background -->
   <div class="pixel-art-background"></div>
@@ -298,7 +267,7 @@
     <button id="btnSave"     class="header-btn">Save</button>
   </header>
 
-  <!-- 3D Carousel (morning, midday, evening) -->
+  <!-- 3D Carousel (Morning/Midday/Evening) -->
   <div class="carousel-viewport">
     <div class="carousel-stage">
       <!-- Morning (left) -->
@@ -311,7 +280,6 @@
           <div class="placeholder"></div>
         </div>
       </div>
-
       <!-- Midday (center) -->
       <div class="sector active center" id="middaySect" data-day="midday">
         <div class="sector-title">Midday</div>
@@ -322,7 +290,6 @@
           <div class="placeholder"></div>
         </div>
       </div>
-
       <!-- Evening (right) -->
       <div class="sector right" id="eveningSect" data-day="evening">
         <div class="sector-title">Evening</div>
@@ -336,10 +303,8 @@
     </div>
   </div>
 
-  <!-- Main content for categories + emojis -->
-  <div class="main-content" id="mainContent">
-    <!-- The categories + emojis are inserted dynamically below. -->
-  </div>
+  <!-- MAIN CONTENT: categories & emojis -->
+  <div class="main-content" id="mainContent"></div>
 
   <!-- RESET OVERLAY -->
   <div id="resetOverlay" class="reset-overlay hidden">
@@ -348,26 +313,35 @@
     </div>
   </div>
 
-  <!-- CONFETTI container -->
+  <!-- CONFETTI -->
   <div id="confettiContainer" class="confetti-container hidden"></div>
 
   <script>
-    /***********************************************************************
+    /***************************************************************************
      * Data & Variables
-     ***********************************************************************/
+     ***************************************************************************/
     let layout = {
-      morning: [null, null, null, null],
-      midday:  [null, null, null, null],
-      evening: [null, null, null, null]
+      morning: [null,null,null,null],
+      midday:  [null,null,null,null],
+      evening: [null,null,null,null]
     };
+
     let homeworkToggled = false;
 
-    /* For pinned-under-finger drag */
+    // For single-drag
+    let isDraggingEmoji = false;
+
+    // Current drag item
     let dragItem = null;
     let dragItemOriginalParent = null;
-    let lastTapTime = 0; // double-tap detection
 
-    /* Example categories with emojis */
+    // offsetX/offsetY: difference between user's finger & top-left of the emoji
+    let offsetX = 0;
+    let offsetY = 0;
+
+    let lastTapTime = 0;
+
+    // Example categories
     const categories = [
       {
         name: "Running / Sports",
@@ -395,23 +369,23 @@
       }
     ];
 
-    /***********************************************************************
+    /***************************************************************************
      * On Load
-     ***********************************************************************/
+     ***************************************************************************/
     window.addEventListener('load', () => {
-      // Hook up the sector toggles
+      // Sector toggles
       document.getElementById('morningSect').addEventListener('click', () => setActiveDay('morning'));
       document.getElementById('middaySect').addEventListener('click',   () => setActiveDay('midday'));
       document.getElementById('eveningSect').addEventListener('click',  () => setActiveDay('evening'));
 
-      initCategories();  
+      initCategories();
       attachButtons();
-      setActiveDay('midday'); // center by default
+      setActiveDay('midday');
     });
 
-    /***********************************************************************
+    /***************************************************************************
      * 3D Carousel
-     ***********************************************************************/
+     ***************************************************************************/
     function setActiveDay(day) {
       const morningSect = document.getElementById('morningSect');
       const middaySect  = document.getElementById('middaySect');
@@ -422,8 +396,8 @@
       eveningSect.classList.remove('active','center','left','right');
 
       if(day === 'morning') {
-        morningSect.classList.add('active','center'); 
-        middaySect.classList.add('right'); 
+        morningSect.classList.add('active','center');
+        middaySect.classList.add('right');
         eveningSect.classList.add('left');
       } else if(day === 'midday') {
         middaySect.classList.add('active','center');
@@ -436,10 +410,9 @@
       }
     }
 
-    /***********************************************************************
-     * Categories + Emojis 
-     * => Square White Outline + pinned-under-finger
-     ***********************************************************************/
+    /***************************************************************************
+     * Categories & Emojis
+     ***************************************************************************/
     function initCategories() {
       const mainContent = document.getElementById('mainContent');
 
@@ -456,10 +429,10 @@
           eDiv.className = 'emoji-item';
           eDiv.textContent = emo;
 
-          // Touch events (pinned drag + double-tap removal)
-          eDiv.addEventListener('touchstart', handleEmojiTouchStart);
-          eDiv.addEventListener('touchmove',  handleEmojiTouchMove, {passive:false});
-          eDiv.addEventListener('touchend',   handleEmojiTouchEnd);
+          // Touch events for pinned drag
+          eDiv.addEventListener('touchstart', handleTouchStart);
+          eDiv.addEventListener('touchmove', handleTouchMove, {passive:false});
+          eDiv.addEventListener('touchend', handleTouchEnd);
 
           eDiv.addEventListener('click', handleDoubleTapCheck);
 
@@ -472,7 +445,7 @@
     function handleDoubleTapCheck(e) {
       const currentTime = Date.now();
       if(currentTime - lastTapTime < 300) {
-        // double tap
+        // double-tap
         const parentPH = e.currentTarget.parentElement;
         if(parentPH && parentPH.classList.contains('placeholder')) {
           parentPH.removeChild(e.currentTarget);
@@ -481,21 +454,31 @@
       lastTapTime = currentTime;
     }
 
-    /***********************************************************************
-     * Drag & Drop: pinned under finger, no offset
-     ***********************************************************************/
-    function handleEmojiTouchStart(e) {
+    /***************************************************************************
+     * Drag & Drop with offset
+     ***************************************************************************/
+    function handleTouchStart(e) {
       if(e.touches.length > 1) return;
+      if(isDraggingEmoji) return; // one drag at a time
+
+      isDraggingEmoji = true;
       dragItem = e.currentTarget;
       dragItemOriginalParent = dragItem.parentElement;
       dragItem.classList.add('dragging');
 
+      // Calculate offset (x,y) 
       const touch = e.touches[0];
-      // EXACT pinned => top-left corner at (touch.pageX, touch.pageY)
+      const rect  = dragItem.getBoundingClientRect();
+
+      // pageX/pageY minus the rect's left/top => offset
+      offsetX = touch.pageX - rect.left;
+      offsetY = touch.pageY - rect.top;
+
+      dragItem.style.zIndex = 9999;
       positionDragItem(touch.pageX, touch.pageY);
     }
 
-    function handleEmojiTouchMove(e) {
+    function handleTouchMove(e) {
       if(!dragItem) return;
       e.preventDefault();
 
@@ -506,14 +489,12 @@
       positionDragItem(touch.pageX, touch.pageY);
     }
 
-    function handleEmojiTouchEnd(e) {
+    function handleTouchEnd(e) {
       if(!dragItem) return;
 
       if(navigator.vibrate) {
         navigator.vibrate([10,10,10,10,10]);
       }
-
-      // Zoom animation
       dragItem.classList.add('drop-zoom');
       setTimeout(() => {
         dragItem.classList.remove('drop-zoom');
@@ -522,11 +503,12 @@
       const changedTouch = e.changedTouches[0];
       const dropTarget = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
 
+      // valid placeholder?
       if(dropTarget && dropTarget.classList.contains('placeholder')) {
         if(dropTarget.children.length === 0) {
           dropTarget.appendChild(dragItem);
         } else {
-          // if placeholder is occupied => swap
+          // if occupied => swap
           const occupant = dropTarget.children[0];
           if(dragItemOriginalParent && dragItemOriginalParent.classList.contains('placeholder')) {
             dragItemOriginalParent.appendChild(occupant);
@@ -535,29 +517,35 @@
             dropTarget.appendChild(dragItem);
           }
         }
+        // keep top
+        dragItem.style.zIndex = 9999;
       } else {
+        // invalid => magnetReturn
         magnetReturn(dragItem, dragItemOriginalParent);
       }
 
       dragItem.classList.remove('dragging');
       dragItem = null;
       dragItemOriginalParent = null;
+      isDraggingEmoji = false;
     }
 
-    function positionDragItem(x, y) {
-      dragItem.style.left = x + 'px';
-      dragItem.style.top  = y + 'px';
+    // Position the emoji so the finger's grabbed point remains under the finger
+    function positionDragItem(pageX, pageY) {
+      dragItem.style.left = (pageX - offsetX) + "px";
+      dragItem.style.top  = (pageY - offsetY) + "px";
     }
 
     function magnetReturn(item, originalParent) {
       if(originalParent) {
         originalParent.appendChild(item);
+        item.style.zIndex = "1";
       }
     }
 
-    /***********************************************************************
-     * Buttons (Reset / Save / Homework)
-     ***********************************************************************/
+    /***************************************************************************
+     * Buttons
+     ***************************************************************************/
     function attachButtons() {
       const btnReset    = document.getElementById('btnReset');
       const btnSave     = document.getElementById('btnSave');
@@ -572,11 +560,11 @@
       const overlay = document.getElementById('resetOverlay');
       overlay.classList.remove('hidden');
       setTimeout(() => {
-        layout.morning = [null, null, null, null];
-        layout.midday  = [null, null, null, null];
-        layout.evening = [null, null, null, null];
+        layout.morning = [null,null,null,null];
+        layout.midday  = [null,null,null,null];
+        layout.evening = [null,null,null,null];
 
-        // Move all emojis from placeholders back to .main-content
+        // Move emojis from placeholders back to mainContent
         document.querySelectorAll('.placeholder').forEach(ph => {
           while(ph.firstChild) {
             document.getElementById('mainContent').appendChild(ph.firstChild);
@@ -589,12 +577,12 @@
     }
 
     function saveLayout() {
-      alert("Save not implemented. (Add localStorage or server calls if needed.)");
+      alert("Save not implemented (localStorage or server).");
     }
 
-    /***********************************************************************
+    /***************************************************************************
      * Homework Toggle => Confetti
-     ***********************************************************************/
+     ***************************************************************************/
     function toggleHomework() {
       const btnHW = document.getElementById('btnHomework');
       if(!homeworkToggled) {
@@ -625,7 +613,7 @@
         container.appendChild(piece);
       }
 
-      // remove them after 3s
+      // remove after ~3s
       setTimeout(() => {
         while(container.firstChild) {
           container.removeChild(container.firstChild);
